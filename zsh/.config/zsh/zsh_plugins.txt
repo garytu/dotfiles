@@ -1,0 +1,12 @@
+rupa/z
+
+# add fish-like features
+zdharma-continuum/fast-syntax-highlighting
+zsh-users/zsh-completions
+# zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-history-substring-search
+zsh-users/zsh-autosuggestions
+
+# omz
+getantidote/use-omz
+ohmyzsh/ohmyzsh path:plugins/git
