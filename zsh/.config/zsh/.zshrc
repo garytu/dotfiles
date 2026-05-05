@@ -16,6 +16,10 @@ if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
 fi
 source ${zsh_plugins}.zsh
 
+source $ZDOTDIR/alias.zsh
 source $ZDOTDIR/bindkeys.zsh
 
+export PATH=$HOME/.local/bin:$HOME/.cargo/bin:$PATH
+
+[[ -f ~/.zsh_secrets ]] && source ~/.zsh_secrets
 
