@@ -4,3 +4,6 @@
 [submodule "tmux/.config/tmux/.tmux"]
 	path = tmux/.config/tmux/.tmux
 	url = https://github.com/gpakosz/.tmux.git
+[submodule "bin/.local/bin"]
+	path = bin/.local/bin
+	url = git@github.ibm.com:garytu/bin.git
