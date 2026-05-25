@@ -1,4 +1,4 @@
 .zsh_history
+.zcompdump
 zsh_plugins.zsh
 lazy-lock.json
-
