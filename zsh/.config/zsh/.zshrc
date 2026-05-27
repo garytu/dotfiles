@@ -1,4 +1,8 @@
 
+if [[ $OSTYPE = (darwin)* ]]; then
+    export PATH=/opt/homebrew/bin:$PATH
+fi
+
 # History
 HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
 HISTSIZE=10000
@@ -30,9 +34,6 @@ source ${zsh_plugins}.zsh
 source $ZDOTDIR/alias.zsh
 source $ZDOTDIR/bindkeys.zsh
 
-if [[ $OSTYPE = (darwin)* ]]; then
-    export PATH=/opt/homebrew/bin:$PATH
-fi
 export PATH=$HOME/.local/bin:$HOME/.local/share/mise/shims:$HOME/.cargo/bin:$PATH
 
 [[ -f ~/.zsh_secrets ]] && source ~/.zsh_secrets
