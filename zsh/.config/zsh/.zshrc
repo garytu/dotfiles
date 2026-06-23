@@ -1,6 +1,12 @@
 
 if [[ $OSTYPE = (darwin)* ]]; then
     export PATH=/opt/homebrew/bin:$PATH
+    # pnpm
+    export PNPM_HOME="/Users/garytu/Library/pnpm"
+    case ":$PATH:" in
+      *":$PNPM_HOME:"*) ;;
+      *) export PATH="$PNPM_HOME:$PATH" ;;
+    esac
 fi
 
 # History

@@ -298,3 +298,5 @@ bind C-a send-prefix
 bind -n S-down new-window zsh
 bind -n S-left prev
 bind -n S-right next
+
+set -g extended-keys-format csi-u
