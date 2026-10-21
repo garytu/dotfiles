@@ -27,15 +27,25 @@ setopt hist_save_no_dups        # Omit older commands in favor of newer ones.
 # Starship prompt
 eval "$(starship init zsh)"
 
-# Lazy-load antidote and generate the static load file only when needed
+# Lazy-load antidote and generate the static load file only when needed.
+# Regenerate when the cache is missing, empty, or stale. The empty check
+# matters: a failed bundle (no network, antidote submodule not checked out)
+# used to leave a zero-byte file newer than zsh_plugins.txt, so it looked
+# up-to-date forever and silently dropped every plugin and git alias.
 zsh_plugins=${ZDOTDIR:-$HOME}/zsh_plugins
-if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
-  (
-    source ${ZDOTDIR:-$HOME}/antidote/antidote.zsh
-    antidote bundle < ${zsh_plugins}.txt > ${zsh_plugins}.zsh
-  )
+if [[ ! -s ${zsh_plugins}.zsh || ${zsh_plugins}.txt -nt ${zsh_plugins}.zsh ]]; then
+  if [[ ! -f ${ZDOTDIR:-$HOME}/antidote/antidote.zsh ]]; then
+    print -u2 "zsh: antidote missing, run 'git submodule update --init' in ~/dotfiles"
+  else
+    # Capture first, write only on success, so a failure keeps the last good cache.
+    if bundle=$(source ${ZDOTDIR:-$HOME}/antidote/antidote.zsh && antidote bundle < ${zsh_plugins}.txt) && [[ -n $bundle ]]; then
+      print -r -- "$bundle" > ${zsh_plugins}.zsh
+    else
+      print -u2 "zsh: antidote bundle failed, plugins not loaded ($(wc -c < ${zsh_plugins}.zsh) byte cache in use)"
+    fi
+  fi
 fi
-source ${zsh_plugins}.zsh
+[[ -s ${zsh_plugins}.zsh ]] && source ${zsh_plugins}.zsh
 
 source $ZDOTDIR/alias.zsh
 source $ZDOTDIR/bindkeys.zsh
