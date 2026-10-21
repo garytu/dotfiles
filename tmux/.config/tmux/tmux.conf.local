@@ -299,4 +299,24 @@ bind -n S-down new-window zsh
 bind -n S-left prev
 bind -n S-right next
 
+# pi (and anything else using the Kitty/CSI-u keyboard protocol) needs tmux to
+# forward Shift+Enter / Alt+Enter as keys distinct from plain Enter. The
+# oh-my-tmux base config sets extended-keys conditionally (mintty/iTerm/xterm
+# only -> "off" for Ghostty), so override it unconditionally here. extended-keys
+# is a SERVER option: it is read when a client attaches, so detach/reattach
+# (or restart the server) after changing it.
+set -g extended-keys on
 set -g extended-keys-format csi-u
+
+# -- clipboard / pi in tmux ----------------------------------------------------
+# Let OSC 52 emitted by programs inside panes (pi, vim, ssh hosts) reach the
+# outer terminal clipboard. tmux >= 3.2 defaults to "external", which silently
+# discards pane-originated OSC 52, so pi's copy did nothing over SSH.
+# Tradeoff: any program inside tmux can now overwrite the local clipboard.
+set -g set-clipboard on
+setw -g set-clipboard on
+
+# oh-my-tmux rewrites copy-mode bindings to pipe through xclip/xsel/pbcopy
+# running on THIS server, which is headless (no DISPLAY/Wayland) and always
+# fails. Rely on OSC 52 above instead.
+tmux_conf_copy_to_os_clipboard=false
