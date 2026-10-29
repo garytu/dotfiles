@@ -51,6 +51,6 @@ source $ZDOTDIR/alias.zsh
 source $ZDOTDIR/bindkeys.zsh
 
 export PATH=$HOME/.local/bin:$HOME/.local/share/mise/shims:$HOME/.cargo/bin:$PATH
-
+export PATH=$HOME/.local/share/mbx/bin:$PATH
 [[ -f ~/.zsh_secrets ]] && source ~/.zsh_secrets
 
